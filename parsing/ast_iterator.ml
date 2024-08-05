@@ -284,6 +284,7 @@ module MT = struct
     sub.location sub loc;
     match desc with
     | Psig_value vd -> sub.value_description sub vd
+    | Psig_primitive vd -> sub.value_description sub vd
     | Psig_type (_, l)
     | Psig_typesubst l ->
       List.iter (sub.type_declaration sub) l

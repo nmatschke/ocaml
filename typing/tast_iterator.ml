@@ -399,6 +399,7 @@ let signature_item sub {sig_loc; sig_desc; sig_env; _} =
   sub.env sub sig_env;
   match sig_desc with
   | Tsig_value v -> sub.value_description sub v
+  | Tsig_primitive v -> sub.value_description sub v
   | Tsig_type (rf, tdl)  -> sub.type_declarations sub (rf, tdl)
   | Tsig_typesubst list -> sub.type_declarations sub (Nonrecursive, list)
   | Tsig_typext te -> sub.type_extension sub te

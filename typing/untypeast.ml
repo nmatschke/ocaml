@@ -590,6 +590,8 @@ let signature_item sub item =
     match item.sig_desc with
       Tsig_value v ->
         Psig_value (sub.value_description sub v)
+    | Tsig_primitive v ->
+        Psig_primitive (sub.value_description sub v)
     | Tsig_type (rec_flag, list) ->
         Psig_type (rec_flag, List.map (sub.type_declaration sub) list)
     | Tsig_typesubst list ->

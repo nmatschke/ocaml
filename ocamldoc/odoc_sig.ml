@@ -564,6 +564,7 @@ module Analyser =
         | Parsetree.Psig_attribute _
         | Parsetree.Psig_extension _
         | Parsetree.Psig_value _
+        | Parsetree.Psig_primitive _
         | Parsetree.Psig_typext _
         | Parsetree.Psig_exception _
         | Parsetree.Psig_open _
@@ -845,6 +846,37 @@ module Analyser =
         sig_item_loc pos_start_ele pos_end_ele pos_limit comment_opt sig_item_desc =
         match sig_item_desc with
           Parsetree.Psig_value value_desc ->
+            let name_pre = value_desc.Parsetree.pval_name in
+            let type_expr =
+              try Signature_search.search_value table name_pre.txt
+              with Not_found ->
+                raise (Failure (Odoc_messages.value_not_found current_module_name name_pre.txt))
+            in
+            let name = Name.parens_if_infix name_pre.txt in
+            let subst_typ = Odoc_env.subst_type env type_expr in
+            let (maybe_more, comment_opt) =
+              get_info ~attrs:value_desc.Parsetree.pval_attributes comment_opt
+                pos_end_ele pos_limit
+            in
+            let v =
+              {
+                val_name = Name.concat current_module_name name ;
+                val_info = comment_opt ;
+                val_type = subst_typ ;
+                val_recursive = false ;
+                val_parameters = Odoc_value.dummy_parameter_list subst_typ ;
+                val_code = None ;
+                val_loc = { loc_impl = None ; loc_inter = Some sig_item_loc } ;
+              }
+            in
+            (* update the parameter description *)
+            Odoc_value.update_value_parameters_text v;
+
+            let new_env = Odoc_env.add_value env v.val_name in
+            (maybe_more, new_env, [ Element_value v ])
+
+        (* CR nmatschke for nmatschke: This is an egregious copy-paste. *)
+        | Parsetree.Psig_primitive value_desc ->
             let name_pre = value_desc.Parsetree.pval_name in
             let type_expr =
               try Signature_search.search_value table name_pre.txt

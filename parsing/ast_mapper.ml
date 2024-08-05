@@ -323,6 +323,7 @@ module MT = struct
     let loc = sub.location sub loc in
     match desc with
     | Psig_value vd -> value ~loc (sub.value_description sub vd)
+    | Psig_primitive vd -> value ~loc (sub.value_description sub vd)
     | Psig_type (rf, l) ->
         type_ ~loc rf (List.map (sub.type_declaration sub) l)
     | Psig_typesubst l ->

@@ -726,6 +726,9 @@ and signature_item i ppf x =
   | Psig_value vd ->
       line i ppf "Psig_value\n";
       value_description i ppf vd;
+  | Psig_primitive vd -> 
+      line i ppf "Psig_primitive\n";
+      value_description i ppf vd;
   | Psig_type (rf, l) ->
       line i ppf "Psig_type %a\n" fmt_rec_flag rf;
       list i type_declaration ppf l;

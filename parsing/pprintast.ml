@@ -1245,8 +1245,12 @@ and signature_item ctxt f x : unit =
       *)
       type_def_list ctxt f (Recursive, false, l)
   | Psig_value vd ->
-      let intro = if vd.pval_prim = [] then "val" else "external" in
-      pp f "@[<2>%s@ %a@ :@ %a@]%a" intro
+      pp f "@[<2>val@ %a@ :@ %a@]%a" 
+        ident_of_name vd.pval_name.txt
+        (value_description ctxt) vd
+        (item_attributes ctxt) vd.pval_attributes
+  | Psig_primitive vd -> 
+      pp f "@[<2>external@ %a@ :@ %a@]%a" 
         ident_of_name vd.pval_name.txt
         (value_description ctxt) vd
         (item_attributes ctxt) vd.pval_attributes

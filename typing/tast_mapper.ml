@@ -521,6 +521,8 @@ let signature_item sub x =
     match x.sig_desc with
     | Tsig_value v ->
         Tsig_value (sub.value_description sub v)
+    | Tsig_primitive v ->
+        Tsig_primitive (sub.value_description sub v)
     | Tsig_type (rec_flag, list) ->
         let (rec_flag, list) = sub.type_declarations sub (rec_flag, list) in
         Tsig_type (rec_flag, list)

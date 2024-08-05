@@ -559,6 +559,7 @@ and signature_item =
 
 and signature_item_desc =
     Tsig_value of value_description
+  | Tsig_primitive of value_description
   | Tsig_type of rec_flag * type_declaration list
   | Tsig_typesubst of type_declaration list
   | Tsig_typext of type_extension
