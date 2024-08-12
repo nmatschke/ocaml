@@ -205,16 +205,26 @@ let value_description sub v =
   let attrs = sub.attributes sub v.val_attributes in
   match v.val_val.val_kind with
   | Val_prim _ -> 
-    Right
-      (Prim.mk ~loc ~attrs
-        ~prim:v.val_prim
-        (map_loc sub v.val_name)
-        (sub.typ sub v.val_desc))
+    let p = 
+      match v.val_desc, v.val_alias with
+      | None, None -> assert false
+      | Some typ, _ -> 
+        Prim.mk_decl ~loc ~attrs
+          ~prim:v.val_prim
+          (map_loc sub v.val_name)
+          (sub.typ sub typ)
+      | None, Some lid -> 
+        Prim.mk_alias ~loc ~attrs
+          (map_loc sub v.val_name)
+          (Option.map (sub.typ sub) v.val_desc)
+          lid
+    in
+    Right p
   | _ -> 
     Left
       (Val.mk ~loc ~attrs
         (map_loc sub v.val_name)
-        (sub.typ sub v.val_desc))
+        (sub.typ sub (Option.get v.val_desc)))
 
 let module_binding sub mb =
   let loc = sub.location sub mb.mb_loc in

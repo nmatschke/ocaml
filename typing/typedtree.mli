@@ -695,9 +695,10 @@ and object_field_desc =
 and value_description =
   { val_id: Ident.t;
     val_name: string loc;
-    val_desc: core_type;
+    val_desc: core_type option;
     val_val: Types.value_description;
     val_prim: string list;
+    val_alias: Longident.t loc option;
     val_loc: Location.t;
     val_attributes: attributes;
     }

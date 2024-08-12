@@ -177,7 +177,7 @@ let structure_item sub {str_loc; str_desc; str_env} =
 let value_description sub x =
   let val_loc = sub.location sub x.val_loc in
   let val_name = map_loc sub x.val_name in
-  let val_desc = sub.typ sub x.val_desc in
+  let val_desc = Option.map (sub.typ sub) x.val_desc in
   let val_attributes = sub.attributes sub x.val_attributes in
   {x with val_loc; val_name; val_desc; val_attributes}
 

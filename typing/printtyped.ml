@@ -466,7 +466,7 @@ and value_description i ppf x =
   line i ppf "value_description %a %a\n" fmt_ident x.val_id fmt_location
        x.val_loc;
   attributes i ppf x.val_attributes;
-  core_type (i+1) ppf x.val_desc;
+  option (i+1) core_type ppf x.val_desc;
   list (i+1) string ppf x.val_prim;
 
 and binding_op i ppf x =
