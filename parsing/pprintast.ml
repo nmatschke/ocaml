@@ -973,10 +973,15 @@ and floating_attribute ctxt f a =
 and value_description ctxt f x =
   (* note: value_description has an attribute field,
            but they're already printed by the callers this method *)
-  pp f "@[<hov2>%a%a@]" (core_type ctxt) x.pval_type
+  pp f "@[<hov2>%a@]" (core_type ctxt) x.pval_type
+
+and primitive_description ctxt f x =
+  (* note: primitive_description has an attribute field,
+           but they're already printed by the callers this method *)
+  pp f "@[<hov2>%a%a@]" (core_type ctxt) x.pprim_type
     (fun f x ->
-       if x.pval_prim <> []
-       then pp f "@ =@ %a" (list constant_string) x.pval_prim
+       if x.pprim_prim <> []
+       then pp f "@ =@ %a" (list constant_string) x.pprim_prim
     ) x
 
 and extension ctxt f (s, e) =
@@ -1249,11 +1254,11 @@ and signature_item ctxt f x : unit =
         ident_of_name vd.pval_name.txt
         (value_description ctxt) vd
         (item_attributes ctxt) vd.pval_attributes
-  | Psig_primitive vd -> 
+  | Psig_primitive pd -> 
       pp f "@[<2>external@ %a@ :@ %a@]%a" 
-        ident_of_name vd.pval_name.txt
-        (value_description ctxt) vd
-        (item_attributes ctxt) vd.pval_attributes
+        ident_of_name pd.pprim_name.txt
+        (primitive_description ctxt) pd
+        (item_attributes ctxt) pd.pprim_attributes
   | Psig_typext te ->
       type_extension ctxt f te
   | Psig_exception ed ->
@@ -1540,11 +1545,11 @@ and structure_item ctxt f x =
               (list ~sep:"@," (class_declaration "and")) xs
       end
   | Pstr_class_type l -> class_type_declaration_list ctxt f l
-  | Pstr_primitive vd ->
+  | Pstr_primitive pd ->
       pp f "@[<hov2>external@ %a@ :@ %a@]%a"
-        ident_of_name vd.pval_name.txt
-        (value_description ctxt) vd
-        (item_attributes ctxt) vd.pval_attributes
+        ident_of_name pd.pprim_name.txt
+        (primitive_description ctxt) pd
+        (item_attributes ctxt) pd.pprim_attributes
   | Pstr_include incl ->
       pp f "@[<hov2>include@ %a@]%a"
         (module_expr ctxt) incl.pincl_mod

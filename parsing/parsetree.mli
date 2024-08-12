@@ -169,6 +169,9 @@ and core_type_desc =
 
            - As the {{!value_description.pval_type}[pval_type]} field of a
            {!value_description}.
+
+           - As the {{!primitive_description.pprim_type}[pprim_type]} field of a
+           {!primitive_description}.
          *)
   | Ptyp_package of package_type  (** [(module S)]. *)
   | Ptyp_open of Longident.t loc * core_type (** [M.(T)] *)
@@ -504,16 +507,23 @@ and value_description =
     {
      pval_name: string loc;
      pval_type: core_type;
-     pval_prim: string list;
      pval_attributes: attributes;  (** [... [\@\@id1] [\@\@id2]] *)
      pval_loc: Location.t;
     }
-(** Values of type {!value_description} represents:
-    - [val x: T],
-            when {{!value_description.pval_prim}[pval_prim]} is [[]]
-    - [external x: T = "s1" ... "sn"]
-            when {{!value_description.pval_prim}[pval_prim]} is [["s1";..."sn"]]
-*)
+(** Values of type {!value_description} represent [val x: T]. *)
+
+(** {2 Primitive descriptions} *)
+
+and primitive_description =
+  {
+    pprim_name: string loc;
+    pprim_type: core_type;
+    pprim_prim: string list;
+    pprim_attributes: attributes;
+    pprim_loc: Location.t
+  }
+(** Values of type {!primitive_description} represent [external x: T = "s1" ... "sn"]
+    with {{!primitive_description.pprim_prim}[pprim_prim]} being [["s1";..."sn"]]. *)
 
 (** {2 Type declarations} *)
 
@@ -892,7 +902,7 @@ and signature_item =
 and signature_item_desc =
   | Psig_value of value_description
       (** [val x: T] *)
-  | Psig_primitive of value_description
+  | Psig_primitive of primitive_description
       (** [external x: T = "s1" ... "sn"] *)
   | Psig_type of rec_flag * type_declaration list
       (** [type t1 = ... and ... and tn  = ...] *)
@@ -1041,7 +1051,7 @@ and structure_item_desc =
             - [let rec P1 = E1 and ... and Pn = EN ]
                 when [rec] is {{!Asttypes.rec_flag.Recursive}[Recursive]}.
         *)
-  | Pstr_primitive of value_description
+  | Pstr_primitive of primitive_description
       (** [external x: T = "s1" ... "sn" ] *)
   | Pstr_type of rec_flag * type_declaration list
       (** [type t1 = ... and ... and tn = ...] *)

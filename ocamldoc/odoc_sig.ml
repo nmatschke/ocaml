@@ -876,8 +876,8 @@ module Analyser =
             (maybe_more, new_env, [ Element_value v ])
 
         (* CR nmatschke for nmatschke: This is an egregious copy-paste. *)
-        | Parsetree.Psig_primitive value_desc ->
-            let name_pre = value_desc.Parsetree.pval_name in
+        | Parsetree.Psig_primitive primitive_desc ->
+            let name_pre = primitive_desc.Parsetree.pprim_name in
             let type_expr =
               try Signature_search.search_value table name_pre.txt
               with Not_found ->
@@ -886,7 +886,7 @@ module Analyser =
             let name = Name.parens_if_infix name_pre.txt in
             let subst_typ = Odoc_env.subst_type env type_expr in
             let (maybe_more, comment_opt) =
-              get_info ~attrs:value_desc.Parsetree.pval_attributes comment_opt
+              get_info ~attrs:primitive_desc.Parsetree.pprim_attributes comment_opt
                 pos_end_ele pos_limit
             in
             let v =
