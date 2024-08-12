@@ -695,13 +695,16 @@ and object_field_desc =
 and value_description =
   { val_id: Ident.t;
     val_name: string loc;
-    val_desc: core_type option;
     val_val: Types.value_description;
-    val_prim: string list;
-    val_alias: Longident.t loc option;
+    val_ext: value_externality;
     val_loc: Location.t;
     val_attributes: attributes;
-    }
+  }
+
+and value_externality = 
+  | Tval_caml of core_type
+  | Tval_prim_decl of core_type * string list
+  | Tval_prim_alias of core_type option * Longident.t loc 
 
 and type_declaration =
   {

@@ -1611,9 +1611,8 @@ let transl_value_decl env loc valdecl =
     {
      val_id = id;
      val_name = valdecl.pval_name;
-     val_desc = Some cty; val_val = v;
-     val_prim = [];
-     val_alias = None;
+     val_val = v;
+     val_ext = Tval_caml cty;
      val_loc = valdecl.pval_loc;
      val_attributes = valdecl.pval_attributes;
     }
@@ -1670,9 +1669,8 @@ let transl_prim_desc env loc primdesc =
       {
        val_id = id;
        val_name = primdesc.pprim_name;
-       val_desc = Some cty; val_val = v;
-       val_prim = pprim_prim;
-       val_alias = None;
+       val_val = v;
+       val_ext = Tval_prim_decl (cty, pprim_prim);
        val_loc = primdesc.pprim_loc;
        val_attributes = primdesc.pprim_attributes;
       }
@@ -1681,7 +1679,7 @@ let transl_prim_desc env loc primdesc =
   | Pprim_alias (pprim_type, pprim_ident) -> 
     let (_ : Path.t), v = Env.lookup_value ~use:true ~loc pprim_ident.txt env in
     (match v.val_kind with
-     | Val_prim p -> 
+     | Val_prim _ -> 
        let cty = 
          Option.map (fun pprim_type -> 
            let cty = Typetexp.transl_type_scheme env pprim_type in
@@ -1697,9 +1695,8 @@ let transl_prim_desc env loc primdesc =
          {
           val_id = id;
           val_name = primdesc.pprim_name;
-          val_desc = cty; val_val = v;
-          val_prim = [ p.prim_name; p.prim_native_name ];
-          val_alias = Some pprim_ident;
+          val_val = v;
+          val_ext = Tval_prim_alias (cty, pprim_ident);
           val_loc = primdesc.pprim_loc;
           val_attributes = primdesc.pprim_attributes;
          }

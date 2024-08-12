@@ -203,28 +203,23 @@ let structure_item sub item =
 let value_description sub v =
   let loc = sub.location sub v.val_loc in
   let attrs = sub.attributes sub v.val_attributes in
-  match v.val_val.val_kind with
-  | Val_prim _ -> 
-    let p = 
-      match v.val_desc, v.val_alias with
-      | None, None -> assert false
-      | Some typ, _ -> 
-        Prim.mk_decl ~loc ~attrs
-          ~prim:v.val_prim
-          (map_loc sub v.val_name)
-          (sub.typ sub typ)
-      | None, Some lid -> 
-        Prim.mk_alias ~loc ~attrs
-          (map_loc sub v.val_name)
-          (Option.map (sub.typ sub) v.val_desc)
-          lid
-    in
-    Right p
-  | _ -> 
+  match v.val_ext with
+  | Tval_caml typ -> 
     Left
       (Val.mk ~loc ~attrs
         (map_loc sub v.val_name)
-        (sub.typ sub (Option.get v.val_desc)))
+        (sub.typ sub typ))
+  | Tval_prim_decl (typ, prim) -> 
+    Right
+      (Prim.mk_decl ~loc ~attrs ~prim
+        (map_loc sub v.val_name)
+        (sub.typ sub typ))
+  | Tval_prim_alias (typ, lid) -> 
+    Right
+      (Prim.mk_alias ~loc ~attrs
+        (map_loc sub v.val_name)
+        (Option.map (sub.typ sub) typ)
+        lid)
 
 let module_binding sub mb =
   let loc = sub.location sub mb.mb_loc in
