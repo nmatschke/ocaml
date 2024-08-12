@@ -1552,7 +1552,7 @@ and structure_item ctxt f x =
       end
   | Pstr_class_type l -> class_type_declaration_list ctxt f l
   | Pstr_primitive pd ->
-      pp f "@[<hov2>external@ %a@ :@ %a@]%a"
+      pp f "@[<hov2>external@ %a@ %a@]%a"
         ident_of_name pd.pprim_name.txt
         (primitive_description ctxt) pd
         (item_attributes ctxt) pd.pprim_attributes
