@@ -520,7 +520,7 @@ and value_description =
   }
 
 and value_externality = 
-  | Tval_caml of core_type
+  | Tval_val of core_type
   | Tval_prim_decl of core_type * string list
   | Tval_prim_alias of core_type option * Longident.t loc 
 

@@ -1612,7 +1612,7 @@ let transl_value_decl env loc valdecl =
      val_id = id;
      val_name = valdecl.pval_name;
      val_val = v;
-     val_ext = Tval_caml cty;
+     val_ext = Tval_val cty;
      val_loc = valdecl.pval_loc;
      val_attributes = valdecl.pval_attributes;
     }

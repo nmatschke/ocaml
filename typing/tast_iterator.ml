@@ -156,7 +156,7 @@ let value_description sub x =
   sub.attributes sub x.val_attributes;
   iter_loc sub x.val_name;
   match x.val_ext with
-  | Tval_caml typ | Tval_prim_decl (typ, _) | Tval_prim_alias (Some typ, _) ->
+  | Tval_val typ | Tval_prim_decl (typ, _) | Tval_prim_alias (Some typ, _) ->
     sub.typ sub typ
   | Tval_prim_alias (None, _) -> ()
 

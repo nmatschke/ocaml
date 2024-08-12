@@ -204,7 +204,7 @@ let value_description sub v =
   let loc = sub.location sub v.val_loc in
   let attrs = sub.attributes sub v.val_attributes in
   match v.val_ext with
-  | Tval_caml typ -> 
+  | Tval_val typ -> 
     Left
       (Val.mk ~loc ~attrs
         (map_loc sub v.val_name)

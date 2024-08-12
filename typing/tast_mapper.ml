@@ -179,7 +179,7 @@ let value_description sub x =
   let val_name = map_loc sub x.val_name in
   let val_ext = 
     match x.val_ext with
-    | Tval_caml typ -> Tval_caml (sub.typ sub typ)
+    | Tval_val typ -> Tval_val (sub.typ sub typ)
     | Tval_prim_decl (typ, prim) -> Tval_prim_decl (sub.typ sub typ, prim)
     | Tval_prim_alias (typ, lid) -> Tval_prim_alias (Option.map (sub.typ sub) typ, lid)
   in
