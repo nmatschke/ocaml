@@ -1680,12 +1680,13 @@ let transl_prim_desc env loc primdesc =
     let (_ : Path.t), v = Env.lookup_value ~use:true ~loc pprim_ident.txt env in
     (match v.val_kind with
      | Val_prim _ -> 
-       let cty = 
-         Option.map (fun pprim_type -> 
+       let cty, v = 
+         match pprim_type with
+         | None -> None, v
+         | Some pprim_type -> 
            let cty = Typetexp.transl_type_scheme env pprim_type in
-           Ctype.unify env cty.ctyp_type v.val_type;
-           cty)
-         pprim_type
+           if not (Env.is_in_signature env) then Ctype.unify env cty.ctyp_type v.val_type;
+           Some cty, { v with val_type = cty.ctyp_type }
        in
        let (id, newenv) = 
          Env.enter_value primdesc.pprim_name.txt v env
