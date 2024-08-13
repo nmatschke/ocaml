@@ -468,7 +468,7 @@ and value_description i ppf x =
   attributes i ppf x.val_attributes;
   match x.val_ext with
   | Tval_val typ -> core_type (i+1) ppf typ
-  | Tval_prim_decl (typ, prim) -> 
+  | Tval_prim_decl (typ, prim) ->
     core_type (i+1) ppf typ;
     list (i+1) string ppf prim
   | Tval_prim_alias (typ, lid) ->

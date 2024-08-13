@@ -68,7 +68,8 @@ type mapper = {
   open_description: mapper -> open_description -> open_description;
   pat: mapper -> pattern -> pattern;
   payload: mapper -> payload -> payload;
-  primitive_description: mapper -> primitive_description -> primitive_description;
+  primitive_description: mapper -> primitive_description
+                         -> primitive_description;
   signature: mapper -> signature -> signature;
   signature_item: mapper -> signature_item -> signature_item;
   structure: mapper -> structure -> structure;
@@ -668,16 +669,16 @@ let default_mapper =
           ~loc:(this.location this pval_loc)
       );
     primitive_description =
-      (fun this {pprim_name; pprim_kind; pprim_loc; pprim_attributes} -> 
+      (fun this {pprim_name; pprim_kind; pprim_loc; pprim_attributes} ->
          match pprim_kind with
-         | Pprim_decl (pprim_type, pprim_prim) -> 
+         | Pprim_decl (pprim_type, pprim_prim) ->
            Prim.mk_decl
              (map_loc this pprim_name)
              (this.typ this pprim_type)
              ~attrs:(this.attributes this pprim_attributes)
              ~loc:(this.location this pprim_loc)
              ~prim:pprim_prim
-         | Pprim_alias (pprim_type, pprim_ident) -> 
+         | Pprim_alias (pprim_type, pprim_ident) ->
            Prim.mk_alias
              (map_loc this pprim_name)
              (Option.map (this.typ this) pprim_type)

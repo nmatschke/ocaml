@@ -430,7 +430,8 @@ module Prim = struct
      pprim_loc = loc;
     }
 
-  let mk_alias ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs) name typ id =
+  let mk_alias ?(loc = !default_loc) ?(attrs = []) ?(docs = empty_docs)
+         name typ id =
     {
      pprim_name = name;
      pprim_kind = Pprim_alias (typ, id);

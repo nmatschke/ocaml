@@ -177,11 +177,12 @@ let structure_item sub {str_loc; str_desc; str_env} =
 let value_description sub x =
   let val_loc = sub.location sub x.val_loc in
   let val_name = map_loc sub x.val_name in
-  let val_ext = 
+  let val_ext =
     match x.val_ext with
     | Tval_val typ -> Tval_val (sub.typ sub typ)
     | Tval_prim_decl (typ, prim) -> Tval_prim_decl (sub.typ sub typ, prim)
-    | Tval_prim_alias (typ, lid) -> Tval_prim_alias (Option.map (sub.typ sub) typ, lid)
+    | Tval_prim_alias (typ, lid) ->
+      Tval_prim_alias (Option.map (sub.typ sub) typ, lid)
   in
   let val_attributes = sub.attributes sub x.val_attributes in
   {x with val_loc; val_name; val_ext; val_attributes}

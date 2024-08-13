@@ -1627,7 +1627,7 @@ let transl_value_decl env loc valdecl =
 (* Translate a primitive description *)
 let transl_prim_desc env loc primdesc =
   match primdesc.pprim_kind with
-  | Pprim_decl (pprim_type, pprim_prim) -> 
+  | Pprim_decl (pprim_type, pprim_prim) ->
     let cty = Typetexp.transl_type_scheme env pprim_type in
     let ty = cty.ctyp_type in
     let v =
@@ -1642,7 +1642,7 @@ let transl_prim_desc env loc primdesc =
         parse_native_repr_attributes env pprim_type ty ~global_repr
       in
       let prim =
-        Primitive.parse_description 
+        Primitive.parse_description
           ~native_repr_args
           ~native_repr_res
           ~prim:pprim_prim
@@ -1677,22 +1677,24 @@ let transl_prim_desc env loc primdesc =
       }
     in
     desc, newenv
-  | Pprim_alias (pprim_type, pprim_ident) -> 
+  | Pprim_alias (pprim_type, pprim_ident) ->
     let (_ : Path.t), v = Env.lookup_value ~use:true ~loc pprim_ident.txt env in
-    let raise_alias_error kind = 
-      raise (Error(pprim_ident.loc, Primitive_alias_does_not_refer_to_primitive kind))
+    let raise_alias_error kind =
+      raise(Error(pprim_ident.loc,
+                  Primitive_alias_does_not_refer_to_primitive kind))
     in
     (match v.val_kind with
-     | Val_prim _ -> 
-       let cty, v = 
+     | Val_prim _ ->
+       let cty, v =
          match pprim_type with
          | None -> None, v
-         | Some pprim_type -> 
+         | Some pprim_type ->
            let cty = Typetexp.transl_type_scheme env pprim_type in
-           if not (Env.is_in_signature env) then Ctype.unify env cty.ctyp_type v.val_type;
+           if not (Env.is_in_signature env)
+           then Ctype.unify env cty.ctyp_type v.val_type;
            Some cty, { v with val_type = cty.ctyp_type }
        in
-       let (id, newenv) = 
+       let (id, newenv) =
          Env.enter_value primdesc.pprim_name.txt v env
            ~check:(fun s -> Warnings.Unused_value_declaration s)
        in
@@ -2320,8 +2322,9 @@ let report_error_doc ppf = function
         (Style.as_inline_code Printtyp.type_expr) ty
         (Style.as_inline_code pp_private) ty
   | Primitive_alias_does_not_refer_to_primitive kind ->
-      fprintf ppf 
-        "@[This@ identifier@ should@ be@ a@ primitive,@ but@ it@ is@ bound@ to@ %s.@]" 
+      fprintf ppf
+        "@[This@ identifier@ should@ be@ a@ primitive,@ but@ it@ is@ bound@ \
+         to@ %s.@]"
         kind
 
 let () =

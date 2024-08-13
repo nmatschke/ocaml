@@ -18,11 +18,11 @@ Error: This identifier should be a primitive, but it is bound to
        a regular value.
 |}]
 
-class c = 
+class c =
   object
     val id = id
 
-    method identity = 
+    method identity =
       let open struct
         external identity = id
       end in
@@ -37,9 +37,9 @@ Error: This identifier should be a primitive, but it is bound to
        an instance variable.
 |}]
 
-class c = 
+class c =
   object (id)
-    method identity = 
+    method identity =
       let open struct
         external identity = id
       end in
@@ -56,11 +56,11 @@ Error: This identifier should be a primitive, but it is bound to
 
 class s = object end
 
-class c = 
+class c =
   object
     inherit s as id
-    
-    method identity = 
+
+    method identity =
       let open struct
         external identity = id
       end in

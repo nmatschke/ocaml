@@ -93,7 +93,9 @@ let parse_description ~native_repr_args ~native_repr_res ~prim ~attrs ~loc =
     | [] ->
         fatal_error "Primitive.parse_description"
   in
-  let noalloc_attribute = Attr_helper.has_no_payload_attribute "noalloc" attrs in
+  let noalloc_attribute =
+    Attr_helper.has_no_payload_attribute "noalloc" attrs
+  in
   if old_style_float &&
      not (List.for_all is_ocaml_repr native_repr_args &&
           is_ocaml_repr native_repr_res) then

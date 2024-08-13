@@ -701,10 +701,10 @@ and value_description =
     val_attributes: attributes;
   }
 
-and value_externality = 
+and value_externality =
   | Tval_val of core_type
   | Tval_prim_decl of core_type * string list
-  | Tval_prim_alias of core_type option * Longident.t loc 
+  | Tval_prim_alias of core_type option * Longident.t loc
 
 and type_declaration =
   {

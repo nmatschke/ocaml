@@ -71,7 +71,7 @@ type mapper = {
   type_exception: mapper -> T.type_exception -> type_exception;
   type_kind: mapper -> T.type_kind -> type_kind;
   value_binding: mapper -> T.value_binding -> value_binding;
-  value_description: mapper -> Typedtree.value_description 
+  value_description: mapper -> Typedtree.value_description
     -> (value_description, primitive_description) either;
   with_constraint:
     mapper -> (Path.t * Longident.t Location.loc * T.with_constraint)
@@ -166,7 +166,7 @@ let structure_item sub item =
         Pstr_value (rec_flag, List.map (sub.value_binding sub) list)
     | Tstr_primitive vd ->
         begin match sub.value_description sub vd with
-        | Right pd -> Pstr_primitive pd 
+        | Right pd -> Pstr_primitive pd
         | Left _vd -> assert false
         end
     | Tstr_type (rec_flag, list) ->
@@ -204,17 +204,17 @@ let value_description sub v =
   let loc = sub.location sub v.val_loc in
   let attrs = sub.attributes sub v.val_attributes in
   match v.val_ext with
-  | Tval_val typ -> 
+  | Tval_val typ ->
     Left
       (Val.mk ~loc ~attrs
         (map_loc sub v.val_name)
         (sub.typ sub typ))
-  | Tval_prim_decl (typ, prim) -> 
+  | Tval_prim_decl (typ, prim) ->
     Right
       (Prim.mk_decl ~loc ~attrs ~prim
         (map_loc sub v.val_name)
         (sub.typ sub typ))
-  | Tval_prim_alias (typ, lid) -> 
+  | Tval_prim_alias (typ, lid) ->
     Right
       (Prim.mk_alias ~loc ~attrs
         (map_loc sub v.val_name)

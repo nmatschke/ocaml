@@ -73,7 +73,7 @@ type mapper = {
   type_exception: mapper -> Typedtree.type_exception -> type_exception;
   type_kind: mapper -> Typedtree.type_kind -> type_kind;
   value_binding: mapper -> Typedtree.value_binding -> value_binding;
-  value_description: mapper -> Typedtree.value_description 
+  value_description: mapper -> Typedtree.value_description
     -> (value_description, primitive_description) either;
   with_constraint:
     mapper -> (Path.t * Longident.t Location.loc * Typedtree.with_constraint)

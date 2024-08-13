@@ -3,7 +3,7 @@
 *)
 
 (* All relevant attributes are copied. *)
-external foo = Float.ldexp 
+external foo = Float.ldexp
 
 [%%expect {|
 external foo : (float [@unboxed]) -> (int [@untagged]) -> (float [@unboxed])
@@ -19,4 +19,3 @@ Line 1, characters 0-48:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Error: Unbound value "Float.foo"
 |}]
-

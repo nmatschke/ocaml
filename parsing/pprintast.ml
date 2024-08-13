@@ -980,12 +980,12 @@ and primitive_description ctxt f x =
            but they're already printed by the callers this method *)
   match x.pprim_kind with
   | Pprim_decl (pprim_type, pprim_prim) ->
-      pp f ":@ @[<hov2>%a@ =@ %a@]" 
-        (core_type ctxt) pprim_type 
+      pp f ":@ @[<hov2>%a@ =@ %a@]"
+        (core_type ctxt) pprim_type
         (list constant_string) pprim_prim
   | Pprim_alias (Some pprim_type, pprim_ident) ->
-      pp f ":@ @[<hov2>%a@ =@ %a@]" 
-        (core_type ctxt) pprim_type 
+      pp f ":@ @[<hov2>%a@ =@ %a@]"
+        (core_type ctxt) pprim_type
         longident_loc pprim_ident
   | Pprim_alias (None, pprim_ident) ->
       pp f "@[@ =@ %a@]" longident_loc pprim_ident
@@ -1256,12 +1256,12 @@ and signature_item ctxt f x : unit =
       *)
       type_def_list ctxt f (Recursive, false, l)
   | Psig_value vd ->
-      pp f "@[<2>val@ %a@ :@ %a@]%a" 
+      pp f "@[<2>val@ %a@ :@ %a@]%a"
         ident_of_name vd.pval_name.txt
         (value_description ctxt) vd
         (item_attributes ctxt) vd.pval_attributes
-  | Psig_primitive pd -> 
-      pp f "@[<2>external@ %a@ %a@]%a" 
+  | Psig_primitive pd ->
+      pp f "@[<2>external@ %a@ %a@]%a"
         ident_of_name pd.pprim_name.txt
         (primitive_description ctxt) pd
         (item_attributes ctxt) pd.pprim_attributes

@@ -1541,7 +1541,8 @@ structure_item:
       primitive_description
         { pstr_primitive $1 }
     | value_description
-        { ill_formed_ast $sloc "Value declarations are only allowed in signatures" }
+        { ill_formed_ast $sloc
+          "Value declarations are only allowed in signatures" }
     | type_declarations
         { pstr_type $1 }
     | str_type_extension

@@ -839,7 +839,7 @@ module Analyser =
               q
       in
       f [] env last_pos sig_item_list
-    
+
     and analyse_signature_value_or_primitive env table current_module_name
           sig_item_loc pos_end_ele pos_limit comment_opt ~name_pre ~attrs =
             let type_expr =

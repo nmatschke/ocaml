@@ -430,12 +430,12 @@ and value_description i ppf x =
   attributes i ppf x.pval_attributes;
   core_type (i+1) ppf x.pval_type;
 
-and primitive_description i ppf x = 
+and primitive_description i ppf x =
   line i ppf "primitive_description %a %a\n" fmt_string_loc
        x.pprim_name fmt_location x.pprim_loc;
   attributes i ppf x.pprim_attributes;
   match x.pprim_kind with
-  | Pprim_decl (pprim_type, pprim_prim) -> 
+  | Pprim_decl (pprim_type, pprim_prim) ->
     line i ppf "Pprim_decl\n";
     core_type (i+1) ppf pprim_type;
     list (i+1) string ppf pprim_prim
@@ -739,7 +739,7 @@ and signature_item i ppf x =
   | Psig_value vd ->
       line i ppf "Psig_value\n";
       value_description i ppf vd;
-  | Psig_primitive pd -> 
+  | Psig_primitive pd ->
       line i ppf "Psig_primitive\n";
       primitive_description i ppf pd;
   | Psig_type (rf, l) ->

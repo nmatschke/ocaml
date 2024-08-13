@@ -606,7 +606,8 @@ let default_iterator =
         iter_loc this pprim_name;
         (match pprim_kind with
          | Pprim_decl (pprim_type, _) -> this.typ this pprim_type
-         | Pprim_alias (pprim_type, _) -> Option.iter (this.typ this) pprim_type);
+         | Pprim_alias (pprim_type, _) ->
+           Option.iter (this.typ this) pprim_type);
         this.location this pprim_loc;
         this.attributes this pprim_attributes;
       );

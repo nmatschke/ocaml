@@ -201,18 +201,18 @@ module Exp:
 (** Value descriptions *)
 module Val:
   sig
-    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> 
+    val mk: ?loc:loc -> ?attrs:attrs -> ?docs:docs ->
       str -> core_type -> value_description
   end
 
 (** Primitive descriptions *)
 module Prim:
   sig
-    val mk_decl: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> prim:string list -> 
+    val mk_decl: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> prim:string list ->
       str -> core_type -> primitive_description
-    
-    val mk_alias: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> str -> core_type option -> 
-      lid -> primitive_description
+
+    val mk_alias: ?loc:loc -> ?attrs:attrs -> ?docs:docs -> str ->
+      core_type option -> lid -> primitive_description
   end
 
 (** Type declarations *)

@@ -8,7 +8,7 @@ external identity : 'a -> 'a = "%identity"
 external identity : 'a -> 'a = "%identity"
 |}]
 
-(* Types are not unified in signatures. *) 
+(* Types are not unified in signatures. *)
 module type Int_backed = sig
   type t
   external to_int : t -> int = identity
@@ -24,7 +24,7 @@ module Int_backed : Int_backed = struct
   type t = int
   external to_int = identity
 end
- 
+
 [%%expect {|
 module Int_backed : Int_backed
 |}]

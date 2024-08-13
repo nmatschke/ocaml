@@ -387,11 +387,11 @@ and add_sig_item (bv, m) item =
   match item.psig_desc with
     Psig_value vd ->
       add_type bv vd.pval_type; (bv, m)
-  | Psig_primitive pd -> 
+  | Psig_primitive pd ->
       (match pd.pprim_kind with
-      | Pprim_decl (pprim_type, _) | Pprim_alias (Some pprim_type, _) -> 
+      | Pprim_decl (pprim_type, _) | Pprim_alias (Some pprim_type, _) ->
         add_type bv pprim_type
-      | Pprim_alias (None, _) -> ()); 
+      | Pprim_alias (None, _) -> ());
       (bv, m)
   | Psig_type (_, dcls)
   | Psig_typesubst dcls->
@@ -533,7 +533,7 @@ and add_struct_item (bv, m) item : _ String.Map.t * _ String.Map.t =
       let bv = add_bindings rf bv pel in (bv, m)
   | Pstr_primitive pd ->
       (match pd.pprim_kind with
-       | Pprim_decl (pprim_type, _) | Pprim_alias (Some pprim_type, _) -> 
+       | Pprim_decl (pprim_type, _) | Pprim_alias (Some pprim_type, _) ->
          add_type bv pprim_type
        | Pprim_alias (None, _) -> ());
       (bv, m)
