@@ -75,6 +75,7 @@ type error =
   | Boxed_and_unboxed
   | Nonrec_gadt
   | Invalid_private_row_declaration of type_expr
+  | Primitive_alias_does_not_refer_to_primitive of string
 
 open Typedtree
 
@@ -1678,6 +1679,9 @@ let transl_prim_desc env loc primdesc =
     desc, newenv
   | Pprim_alias (pprim_type, pprim_ident) -> 
     let (_ : Path.t), v = Env.lookup_value ~use:true ~loc pprim_ident.txt env in
+    let raise_alias_error kind = 
+      raise (Error(pprim_ident.loc, Primitive_alias_does_not_refer_to_primitive kind))
+    in
     (match v.val_kind with
      | Val_prim _ -> 
        let cty, v = 
@@ -1703,9 +1707,10 @@ let transl_prim_desc env loc primdesc =
          }
        in
        desc, newenv
-     | Val_reg | Val_ivar _ | Val_self _ | Val_anc _ -> 
-       (* CR nmatschke for nmatschke: Raise [Error] here. *) 
-       assert false)
+     | Val_reg -> raise_alias_error "a regular value"
+     | Val_ivar _ -> raise_alias_error "an instance variable"
+     | Val_self _ -> raise_alias_error "the self object"
+     | Val_anc _ -> raise_alias_error "an ancestor object")
 
 let transl_prim_desc env loc primdesc =
   Builtin_attributes.warning_scope primdesc.pprim_attributes
@@ -2314,6 +2319,10 @@ let report_error_doc ppf = function
          write explicitly@]@;<1 2>%a@]"
         (Style.as_inline_code Printtyp.type_expr) ty
         (Style.as_inline_code pp_private) ty
+  | Primitive_alias_does_not_refer_to_primitive kind ->
+      fprintf ppf 
+        "@[This@ identifier@ should@ be@ a@ primitive,@ but@ it@ is@ bound@ to@ %s.@]" 
+        kind
 
 let () =
   Location.register_error_of_exn
