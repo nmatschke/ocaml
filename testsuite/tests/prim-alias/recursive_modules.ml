@@ -2,12 +2,6 @@
    expect;
 *)
 
-external identity : 'a -> 'a = "%identity"
-
-[%%expect {|
-external identity : 'a -> 'a = "%identity"
-|}]
-
 (* Cannot define a self-referential primitive. *)
 module rec A : sig
   external p = A.p
@@ -46,16 +40,16 @@ Error: Unbound value "C.p"
 module rec D : sig
   external p = E.p
 end = struct
-  external p = identity
+  external p = Obj.magic
 end
 
 and E : sig
-  external p = identity
+  external p = Obj.magic
 end = struct
   external p = D.p
 end
 
 [%%expect {|
-module rec D : sig external p : 'a -> 'a = "%identity" end
-and E : sig external p : 'a -> 'a = "%identity" end
+module rec D : sig external p : 'a -> 'b = "%identity" end
+and E : sig external p : 'a -> 'b = "%identity" end
 |}]
