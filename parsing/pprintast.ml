@@ -1079,9 +1079,9 @@ and primitive_description ctxt f x =
   | Pprim_alias (Some pprim_type, pprim_ident) ->
       pp f ":@ @[<hov2>%a@ =@ %a@]"
         (core_type ctxt) pprim_type
-        longident_loc pprim_ident
+        value_longident_loc pprim_ident
   | Pprim_alias (None, pprim_ident) ->
-      pp f "@[@ =@ %a@]" longident_loc pprim_ident
+      pp f "@[@ =@ %a@]" value_longident_loc pprim_ident
 
 and extension ctxt f (s, e) =
   pp f "@[<2>[%%%s@ %a]@]" s.txt (payload ctxt) e
